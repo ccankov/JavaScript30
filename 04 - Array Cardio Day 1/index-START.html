@@ -31,17 +31,67 @@
 
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
+    Array.prototype.myFilter = function(filterMethod) {
+      let filteredArray = [];
+
+      this.forEach((el) => {
+        if (filterMethod(el)) {
+          filteredArray.push(el);
+        }
+      });
+
+      return filteredArray;
+    };
+
+    const filteredInventors = inventors.myFilter((inventor) => {
+      return inventor.year > 1499 && inventor.year < 1600;
+    });
+
+    console.log(filteredInventors);
 
     // Array.prototype.map()
     // 2. Give us an array of the inventors' first and last names
+    Array.prototype.myMap = function(itemMapper) {
+      let mappedArray = [];
+
+      this.forEach((el) => {
+        let mappedItem = itemMapper(el);
+        mappedArray.push(mappedItem);
+      });
+
+      return mappedArray;
+    };
+
+    const inventorNames = inventors.myMap((inventor) =>
+      `${inventor.first} ${inventor.last}`
+    );
+
+    console.log(inventorNames);
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
+    const sortedInventors = inventors.sort((inventor1, inventor2) => {
+      return inventor2.year > inventor1.year ? 1 : -1;
+    });
+
+    console.log(sortedInventors);
 
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live?
+    const totalYears = inventors.reduce((years, inventor) => (
+      years + (inventor.passed - inventor.year)
+    ), 0);
+
+    console.log(totalYears);
 
     // 5. Sort the inventors by years lived
+    const sortedInventorsByLived = inventors.sort((inventor1, inventor2) => {
+      const inventorOneLived = inventor1.passed - inventor1.year;
+      const inventorTwoLived = inventor2.passed - inventor2.year;
+      return inventorTwoLived  > inventorOneLived ? 1 : -1;
+    });
+
+    console.log(sortedInventorsByLived);
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
@@ -49,10 +99,22 @@
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+    const sortedPeople = people.sort((personOne, personTwo) => {
+      return personTwo < personOne ? 1 : -1;
+    });
+
+    console.log(sortedPeople);
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+    const counts = {};
+
+    data.forEach((datum) => {
+      counts[datum] = counts[datum] ? counts[datum] + 1 : 1;
+    });
+
+    console.log(counts);
 
   </script>
 </body>
