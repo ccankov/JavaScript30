@@ -99,6 +99,42 @@
   </div>
 
 <script>
+
+function checkboxSelector(e) {
+  // Iterate over checkboxes from top or bottom, and mark ones to check
+  const checker = (inputs, checkArray, asc = true) => {
+    let curIndex = asc ? 0 : inputs.length - 1;
+
+    // Iterate until we reach the checkbox that was clicked
+    while (inputs[curIndex] !== this) {
+      // If we have started checking or if we find an already checked input
+      if (checkArray.length > 0 || inputs[curIndex].checked) {
+        checkArray.push(inputs[curIndex]);
+      }
+      asc ? curIndex++ : curIndex--;
+    }
+  }
+
+  if (!e.shiftKey) { return; }
+  let inputsToCheck = [];
+
+  // Start from top
+  checker(inputs, inputsToCheck);
+
+  // If we don't have any checkboxes to check
+  if (inputsToCheck.length === 0) {
+    // Start from bottom
+    checker(inputs, inputsToCheck, false);
+  }
+
+  // Check the appropriate checkboxes
+  inputsToCheck.forEach(input => input.checked = true);
+}
+
+const inputs = document.querySelectorAll('input');
+
+inputs.forEach(input => input.addEventListener('click', checkboxSelector));
+
 </script>
 </body>
 </html>
